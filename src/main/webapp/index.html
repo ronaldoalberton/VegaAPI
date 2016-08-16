@@ -1,0 +1,28 @@
+<!doctype html>
+<html ng-app="vega">
+    <head>
+        <title>Vega Services</title>
+    </head>
+    <body>
+        <div ng-controller="main">
+            <label id="messageClasse"></label>
+            <br>
+            <label id="messageHora"></label>
+        </div>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script>
+        var vega = angular.module("vega",[]);
+        vega.controller("main", ["$http",function(HTTP){            
+            setInterval(function () {                
+                var req = {url:"http://localhost:8080/VegaService/api/info/single",method:'GET'};            
+                HTTP(req).then(function(success){
+                    document.getElementById("messageClasse").innerHTML = success.data.nomeClasse;
+                    var hora;
+                    hora = success.data.dataHora.hourOfDay + ":" + success.data.dataHora.minuteOfDay + ":" + success.data.dataHora.secondOfDay;
+                    document.getElementById("messageHora").innerHTML = hora;
+                });                
+            },1000);
+        }]);
+    </script>
+</html>
